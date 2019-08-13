@@ -1,3 +1,13 @@
+// Mixin
+$font: 'Red hat display';
+
+@mixin createCircle($i) {
+   border-radius: 100%;
+   height: $i;
+   line-height: $i;
+   width: $i;
+}
+
 *,
 *::after,
 *::before {
@@ -7,4 +17,183 @@
 html,
 body {
    height: 100%;
+}
+
+body {
+   font-family: $font, sans-serif;
+}
+
+.error {
+   align-items: center;
+   display: flex;
+   height: 100%;
+   justify-content: center;
+   left: 0;
+   position: absolute;
+   top: 0;
+   visibility: hidden;
+   width: 100%;
+   z-index: 0;
+
+   &--show {
+      visibility: visible;
+      z-index: 100;
+   }
+
+   &>h1 {
+      color: #888;
+      font-weight: 400;
+      font-size: 1.127rem;
+   }
+}
+
+// Main
+.loading-screen {
+   align-items: center;
+   background: #f1f1fc;
+   display: flex;
+   height: 100%;
+   justify-content: center;
+   left: 0;
+   position: absolute;
+   top: 0;
+   transition: all 1s ease;
+   visibility: visible;
+   width: 100%;
+   z-index: 100;
+
+   &--hidden {
+      opacity: 0;
+      visibility: hidden;
+   }
+
+   &__loader {
+      animation: loaderAnim 1s infinite linear;
+      border: 8px solid #ccc;
+      border-top: 8px solid #aaa;
+      border-right: 8px solid #aaa;
+      @include createCircle(5em);
+   }
+
+   &__icons {
+      &::after {
+         animation: loaderIconsAnim 10s infinite step-start, fadeInOut 2.5s infinite;
+         color: #888;
+         content: '\f185';
+         font-family: 'Font Awesome 5 Free';
+         font-weight: 900;
+         font-size: 1.425rem;
+         left: 50%;
+         opacity: 0;
+         position: absolute;
+         top: 50%;
+         transform: translate(-50%, -50%);
+      }
+   }
+}
+
+// Weather
+.weather {
+   align-items: flex-start;
+   background: center / cover no-repeat;
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+   justify-content: flex-end;
+   overflow: hidden;
+   padding: 1em;
+   width: 100%;
+
+   &--clouds {
+      background-image: url('../img/cloudy.jpg');
+   }
+
+   &--snow {
+      background-image: url('../img/snow.jpg');
+   }
+
+   &--rain {
+      background-image: url('../img/rain.jpg');
+   }
+
+   &--mist {
+      background-image: url('../img/mist.jpg');
+   }
+
+   &--thunderstorm {
+      background-image: url('../img/thunder.jpg');
+   }
+
+   &--clear {
+      background-image: url('../img/clear-sky.jpg');
+   }
+
+   &>h1,
+   &>p,
+   &>time {
+      animation: inFromLeft 2s forwards;
+      color: #fff;
+      margin: 0;
+      opacity: 0;
+      transform: translatey(10em);
+   }
+
+   &>h1 {
+      font-size: 1.55rem;
+      text-transform: uppercase;
+   }
+
+   &>p {
+      font-size: 1.35rem;
+   }
+
+   &>time {
+      font-size: .90rem;
+   }
+}
+
+// Animations
+@keyframes loaderAnim {
+   from {
+      transform: rotate(0deg);
+   }
+
+   to {
+      transform: rotate(360deg);
+   }
+}
+
+@keyframes loaderIconsAnim {
+   25% {
+      content: '\f185';
+   }
+
+   50% {
+      content: '\f0c2';
+   }
+
+   75% {
+      content: '\f73d';
+   }
+
+   100% {
+      content: '\f72e';
+   }
+}
+
+@keyframes fadeInOut {
+   from {
+      opacity: 0;
+   }
+
+   to {
+      opacity: 1;
+   }
+}
+
+@keyframes inFromLeft {
+   to {
+      opacity: 1;
+      transform: translatey(0);
+   }
 }
